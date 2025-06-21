@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>대상처</title>
+  <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=t5s7sd6ami"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script>
+    // 지도 중심 좌표 (서울 시청)
+    var map = new naver.maps.Map('map', {
+      center: new naver.maps.LatLng(37.5665, 126.9780),
+      zoom: 12
+    });
+
+    // 거래처 리스트
+    var places = [
+      {
+        name: "거래처 A",
+        lat: 37.5665,
+        lng: 126.9780,
+        address: "서울특별시 중구 세종대로"
+      },
+      {
+        name: "거래처 B",
+        lat: 37.5700,
+        lng: 126.9830,
+        address: "서울특별시 종로구 종로"
+      },
+      {
+        name: "거래처 C",
+        lat: 37.5651,
+        lng: 126.9895,
+        address: "서울특별시 중구 충무로"
+      }
+    ];
+
+    // 마커 및 정보창 생성
+    places.forEach(place => {
+      var marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(place.lat, place.lng),
+        map: map,
+        title: place.name
+      });
+
+      var infowindow = new naver.maps.InfoWindow({
+        content: `<div style="padding:10px; font-size:14px;">
+                    <strong>${place.name}</strong><br>${place.address}
+                  </div>`
+      });
+
+      naver.maps.Event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+    });
+  </script>
+</body>
+</html>
